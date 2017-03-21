@@ -29,8 +29,8 @@ type Project struct {
 	UpdatedOn   string `json:"updated_on"`
 }
 
-func (c *Client) Project(id int) (*Project, error) {
-	res, err := c.Get(c.endpoint + "/projects/" + strconv.Itoa(id) + ".json?key=" + c.apikey)
+func (c *Client) Project(ref string) (*Project, error) {
+	res, err := c.Get(c.endpoint + "/projects/" + ref + ".json?key=" + c.apikey)
 	if err != nil {
 		return nil, err
 	}

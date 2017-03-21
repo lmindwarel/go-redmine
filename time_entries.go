@@ -26,14 +26,16 @@ type TimeEntry struct {
 	Issue     Id     `json:"issue"`
 	User      IdName `json:"user"`
 	Activity  IdName `json:"activity"`
-	Hours     float32
+	Hours     float32 `json:"hours"`
 	SpentOn   string `json:"spent_on"`
 	CreatedOn string `json:"created_on"`
 	UpdatedOn string `json:"updated_on"`
+	ActivityId int `json:"activity_id,omitempty"`
+	ProjectId int `json:"project_id,omitempty"`
 }
 
-func (c *Client) TimeEntries(projectId int) ([]TimeEntry, error) {
-	res, err := c.Get(c.endpoint + "/projects/" + strconv.Itoa(projectId) + "/time_entries.json?key=" + c.apikey + c.getPaginationClause())
+func (c *Client) TimeEntries(projectId int, userId int, spentOn string) ([]TimeEntry, error) {
+	res, err := c.Get(c.endpoint + "/projects/" + strconv.Itoa(projectId) + "/time_entries.json?user_id=" + strconv.Itoa(userId) + "&spent_on=" + spentOn + "&key=" + c.apikey + c.getPaginationClause())
 	if err != nil {
 		return nil, err
 	}
