@@ -21,17 +21,18 @@ type timeEntryRequest struct {
 }
 
 type TimeEntry struct {
-	Id        int    `json:"id"`
-	Project   IdName `json:"project"`
-	Issue     Id     `json:"issue"`
-	User      IdName `json:"user"`
-	Activity  IdName `json:"activity"`
-	Hours     float32 `json:"hours"`
-	SpentOn   string `json:"spent_on"`
-	CreatedOn string `json:"created_on"`
-	UpdatedOn string `json:"updated_on"`
-	ActivityId int `json:"activity_id,omitempty"`
-	ProjectId int `json:"project_id,omitempty"`
+	Id         int     `json:"id"`
+	Project    IdName  `json:"project"`
+	Issue      Id      `json:"issue"`
+	User       IdName  `json:"user"`
+	Activity   IdName  `json:"activity"`
+	Comments   string  `json:"comments"`
+	Hours      float32 `json:"hours"`
+	SpentOn    string  `json:"spent_on"`
+	CreatedOn  string  `json:"created_on"`
+	UpdatedOn  string  `json:"updated_on"`
+	ActivityId int     `json:"activity_id,omitempty"`
+	ProjectId  int     `json:"project_id,omitempty"`
 }
 
 func (c *Client) TimeEntries(projectId int, userId int, spentOn string) ([]TimeEntry, error) {
