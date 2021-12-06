@@ -175,7 +175,7 @@ func (c *Client) DeleteTimeEntry(id int) error {
 	defer res.Body.Close()
 
 	decoder := json.NewDecoder(res.Body)
-	if res.StatusCode != 204 {
+	if res.StatusCode != http.StatusNoContent {
 		var er errorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
