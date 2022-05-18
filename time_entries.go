@@ -3,6 +3,7 @@ package redmine
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -133,7 +134,7 @@ func (c *Client) UpdateTimeEntry(timeEntry TimeEntry) error {
 	}
 	req, err := http.NewRequest("PUT", c.endpoint+"/time_entries/"+strconv.Itoa(timeEntry.Id)+".json?key="+c.apikey, strings.NewReader(string(s)))
 	if err != nil {
-		return err
+		return errors.Wrap(err, "failed to request redmine")
 	}
 	req.Header.Set("Content-Type", "application/json")
 	res, err := c.Do(req)
@@ -160,27 +161,32 @@ func (c *Client) UpdateTimeEntry(timeEntry TimeEntry) error {
 }
 
 func (c *Client) DeleteTimeEntry(id int) error {
-	req, err := http.NewRequest("DELETE", c.endpoint+"/time_entries/"+strconv.Itoa(id)+".json?key="+c.apikey, strings.NewReader(""))
+	req, err := http.NewRequest(http.MethodDelete, c.endpoint+"/time_entries/"+strconv.Itoa(id)+".json?key="+c.apikey, strings.NewReader(""))
 	if err != nil {
 		return err
 	}
-	req.Header.Set("Content-Type", "application/json")
+
 	res, err := c.Do(req)
-	if res.StatusCode == 404 {
-		return errors.New("Not Found")
-	}
 	if err != nil {
-		return err
+		return errors.Wrap(err, "failed to request redmine")
 	}
+
 	defer res.Body.Close()
 
-	decoder := json.NewDecoder(res.Body)
-	if res.StatusCode != http.StatusNoContent {
+	if res.StatusCode == http.StatusNotFound {
+		return errors.New("Not Found")
+	}
+
+	if res.StatusCode < 200 || res.StatusCode >= 300 {
+		decoder := json.NewDecoder(res.Body)
 		var er errorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
-			err = errors.New(strings.Join(er.Errors, "\n"))
+			return errors.New(strings.Join(er.Errors, "\n"))
 		}
+
+		return fmt.Errorf("bad api response status: %d", res.StatusCode)
 	}
+
 	return err
 }
