@@ -36,7 +36,7 @@ func (c *Client) Users() ([]User, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r usersResult
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -60,7 +60,7 @@ func (c *Client) User(id int) (*User, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r userResult
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))

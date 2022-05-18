@@ -51,7 +51,7 @@ func (c *Client) WikiPages(projectId int) ([]WikiPage, error) {
 		return nil, errors.New("Not Found")
 	}
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		if err = decoder.Decode(&er); err != nil {
 			return nil, err
 		}
@@ -87,7 +87,7 @@ func (c *Client) getWikiPage(projectId int, resource string) (*WikiPage, error) 
 		return nil, errors.New("Not Found")
 	}
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		if err = decoder.Decode(&er); err != nil {
 			return nil, err
 		}
@@ -122,7 +122,7 @@ func (c *Client) CreateWikiPage(projectId int, wikiPage WikiPage) (*WikiPage, er
 	decoder := json.NewDecoder(res.Body)
 	var r wikiPageResult
 	if res.StatusCode != 201 {
-		var er errorsResult
+		var er ErrorsResult
 		if err = decoder.Decode(&er); err != nil {
 			return nil, err
 		}
@@ -159,7 +159,7 @@ func (c *Client) UpdateWikiPage(projectId int, wikiPage WikiPage) error {
 
 	if res.StatusCode != 200 {
 		decoder := json.NewDecoder(res.Body)
-		var er errorsResult
+		var er ErrorsResult
 		if err := decoder.Decode(&er); err != nil {
 			return err
 		}
@@ -186,7 +186,7 @@ func (c *Client) DeleteWikiPage(projectId int, title string) error {
 
 	decoder := json.NewDecoder(res.Body)
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		if err := decoder.Decode(&er); err != nil {
 			return err
 		}

@@ -33,7 +33,7 @@ func (c *Client) News(projectId int) ([]News, error) {
 		return nil, errors.New("Not Found")
 	}
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))

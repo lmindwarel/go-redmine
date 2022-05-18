@@ -41,7 +41,7 @@ func (c *Client) IssueCategories(projectId int) ([]IssueCategory, error) {
 		return nil, errors.New("Not Found")
 	}
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -68,7 +68,7 @@ func (c *Client) IssueCategory(id int) (*IssueCategory, error) {
 		return nil, errors.New("Not Found")
 	}
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -103,7 +103,7 @@ func (c *Client) CreateIssueCategory(issueCategory IssueCategory) (*IssueCategor
 	decoder := json.NewDecoder(res.Body)
 	var r issueCategoryResult
 	if res.StatusCode != 201 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -140,7 +140,7 @@ func (c *Client) UpdateIssueCategory(issueCategory IssueCategory) error {
 
 	if res.StatusCode != 200 {
 		decoder := json.NewDecoder(res.Body)
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -169,7 +169,7 @@ func (c *Client) DeleteIssueCategory(id int) error {
 
 	decoder := json.NewDecoder(res.Body)
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))

@@ -26,7 +26,7 @@ func (c *Client) IssuePriorities() ([]IssuePriority, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r issuePrioritiesResult
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))

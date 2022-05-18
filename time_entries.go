@@ -49,7 +49,7 @@ func (c *Client) TimeEntries(projectId int, userId int, spentOn string) ([]TimeE
 		return nil, errors.New("Not Found")
 	}
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -76,7 +76,7 @@ func (c *Client) TimeEntry(id int) (*TimeEntry, error) {
 		return nil, errors.New("Not Found")
 	}
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -111,7 +111,7 @@ func (c *Client) CreateTimeEntry(timeEntry TimeEntry) (*TimeEntry, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r timeEntryResult
 	if res.StatusCode != 201 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -148,7 +148,7 @@ func (c *Client) UpdateTimeEntry(timeEntry TimeEntry) error {
 
 	if res.StatusCode != 200 {
 		decoder := json.NewDecoder(res.Body)
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -179,7 +179,7 @@ func (c *Client) DeleteTimeEntry(id int) error {
 
 	if res.StatusCode < 200 || res.StatusCode >= 300 {
 		decoder := json.NewDecoder(res.Body)
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			return errors.New(strings.Join(er.Errors, "\n"))

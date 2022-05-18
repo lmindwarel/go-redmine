@@ -41,7 +41,7 @@ func (c *Client) IssueRelations(issueId int) ([]IssueRelation, error) {
 		return nil, errors.New("Not Found")
 	}
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -68,7 +68,7 @@ func (c *Client) IssueRelation(id int) (*IssueRelation, error) {
 		return nil, errors.New("Not Found")
 	}
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -103,7 +103,7 @@ func (c *Client) CreateIssueRelation(issueRelation IssueRelation) (*IssueRelatio
 	decoder := json.NewDecoder(res.Body)
 	var r issueRelationResult
 	if res.StatusCode != 201 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -140,7 +140,7 @@ func (c *Client) UpdateIssueRelation(issueRelation IssueRelation) error {
 
 	if res.StatusCode != 200 {
 		decoder := json.NewDecoder(res.Body)
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -169,7 +169,7 @@ func (c *Client) DeleteIssueRelation(id int) error {
 
 	decoder := json.NewDecoder(res.Body)
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))

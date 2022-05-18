@@ -70,7 +70,7 @@ func (c *Client) IssuesOf(projectId int) ([]Issue, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r issuesResult
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -97,7 +97,7 @@ func (c *Client) Issue(id int) (*Issue, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r issueRequest
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -121,7 +121,7 @@ func (c *Client) IssuesByQuery(queryId int) ([]Issue, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r issuesResult
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -145,7 +145,7 @@ func (c *Client) IssuesByFilter(f *IssueFilter) ([]Issue, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r issuesResult
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -169,7 +169,7 @@ func (c *Client) Issues() ([]Issue, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r issuesResult
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -204,7 +204,7 @@ func (c *Client) CreateIssue(issue Issue) (*Issue, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r issueRequest
 	if res.StatusCode != 201 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -241,7 +241,7 @@ func (c *Client) UpdateIssue(issue Issue) error {
 
 	if res.StatusCode != 200 {
 		decoder := json.NewDecoder(res.Body)
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -270,7 +270,7 @@ func (c *Client) DeleteIssue(id int) error {
 
 	decoder := json.NewDecoder(res.Body)
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))

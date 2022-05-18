@@ -39,7 +39,7 @@ func (c *Client) Project(ref string) (*Project, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r projectResult
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -63,7 +63,7 @@ func (c *Client) Projects() ([]Project, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r projectsResult
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -98,7 +98,7 @@ func (c *Client) CreateProject(project Project) (*Project, error) {
 	decoder := json.NewDecoder(res.Body)
 	var r projectRequest
 	if res.StatusCode != 201 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -135,7 +135,7 @@ func (c *Client) UpdateProject(project Project) error {
 
 	if res.StatusCode != 200 {
 		decoder := json.NewDecoder(res.Body)
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
@@ -164,7 +164,7 @@ func (c *Client) DeleteProject(id int) error {
 
 	decoder := json.NewDecoder(res.Body)
 	if res.StatusCode != 200 {
-		var er errorsResult
+		var er ErrorsResult
 		err = decoder.Decode(&er)
 		if err == nil {
 			err = errors.New(strings.Join(er.Errors, "\n"))
