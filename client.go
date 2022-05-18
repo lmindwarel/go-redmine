@@ -30,7 +30,7 @@ func (c *Client) getPaginationClause() string {
 	return clause
 }
 
-type errorsResult struct {
+type ErrorsResult struct {
 	Errors []string `json:"errors"`
 }
 
